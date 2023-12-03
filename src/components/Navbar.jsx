@@ -4,8 +4,8 @@ import { RiLogoutCircleRLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 function Navbar() {
   return (
-    <nav className="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 rounded-xl mt-4">
-      <div className="flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav className="border-gray-200 bg-gray-50 dark:bg-gray-800/70 backdrop-blur-10 dark:border-gray-700 rounded-xl mt-4 sticky top-0">
+      <div className="flex relative flex-wrap items-center justify-between mx-auto p-4">
         <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
             Vote{" "}
@@ -48,28 +48,28 @@ function Navbar() {
               </Link>
             </li>
             <li>
-              <a
-                href="#"
-                className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-700 dark:text-white md:dark:hover:text-cyan-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                Winner
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
+              <Link
+                to="/vote"
                 className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-700 dark:text-white md:dark:hover:text-cyan-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
               >
                 Vote
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/lists"
                 className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-700 dark:text-white md:dark:hover:text-cyan-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
               >
                 Lists
-              </a>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/electionCommission"
+                className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-cyan-700 dark:text-white md:dark:hover:text-cyan-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+              >
+                Election Commission
+              </Link>
             </li>
           </ul>
         </div>
@@ -102,6 +102,22 @@ function Navbar() {
             />
             <span className="flex gap-1 items-center">Connect</span>
           </a>
+        </div>
+        <div className="flex gap-1 flex-row absolute top-20 border-gray-200 p-3 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 rounded-xl mt-5 left-0">
+          <p class="tracking-tighter text-xl text-cyan-500 md:text-sm dark:text-cyan-400 ">
+            Vote Status
+          </p>
+          <p class="tracking-tighter text-xl text-gray-500 md:text-sm dark:text-gray-400">
+            : Closed
+          </p>
+        </div>
+        <div className="flex gap-1 flex-row absolute top-20 border-gray-200 p-3 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 rounded-xl mt-5 right-0">
+          <p class="tracking-tighter text-xl text-cyan-500 md:text-sm dark:text-cyan-400 ">
+            Winner is
+          </p>
+          <p class="tracking-tighter text-xl text-gray-500 md:text-sm dark:text-gray-400">
+            : None
+          </p>
         </div>
       </div>
     </nav>

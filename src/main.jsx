@@ -12,6 +12,10 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Voter from "./components/register/Voter";
 import Candidate from "./components/register/Candidate";
+import Vote from "./components/Vote";
+import Lists from "./components/Lists";
+import ElectionCommission from "./components/ElectionCommission";
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
@@ -22,6 +26,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/" element={<Home />} />
             <Route path="/voterRegister" element={<Voter />} />
             <Route path="/candidateRegister" element={<Candidate />} />
+            <Route path="/Vote" element={<Vote />} />
+            <Route path="/Lists" element={<Lists />} />
+            <Route path="/ElectionCommission" element={<ElectionCommission/>} />
           </Routes>
         </div>
       </div>

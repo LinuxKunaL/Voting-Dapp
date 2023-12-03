@@ -37,3 +37,13 @@ body {
     scale: 100%;
   }
 }
+
+/* Hide the arrow icon in Chrome and Safari */
+input[type="datetime-local"]::-webkit-inner-spin-button,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert();
+  font-size: 1.2rem;
+  padding: 5px;
+  position: absolute;
+  left: 0.5pc;
+}

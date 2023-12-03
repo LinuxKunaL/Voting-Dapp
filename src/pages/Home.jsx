@@ -1,12 +1,13 @@
 import React from "react";
-import Blue from "../assets/images/blue_hexagonal.png";
+import blue_block from "../assets/images/blue_hexagonal.png";
 import { FaUserTie, FaUsers } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
+import LoadingBar from "react-top-loading-bar";
 function Home() {
   return (
     <section className="bg-white dark:bg-gray-900 ">
-      <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
+      <LoadingBar color="#08daf1" progress={100} />
+      <div className="py-14 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
         <h1 className="mb-4 text-4xl font-semibold tracking-tight leading-auto text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
           Empowering Decentralized
           <span className="text-transparent bg-clip-text bg-gradient-to-r to-cyan-300 from-sky-400">
@@ -44,8 +45,8 @@ function Home() {
             className="blue-box"
             style={{ filter: "drop-shadow(0px 30px 120px #5ec4f8)" }}
             // style={{ filter: "drop-shadow(0px 30px 120px #1749aa89)" }}
-            src={Blue}
-            alt=""
+            src={blue_block}
+            alt="blue_block"
           />
         </div>
       </div>
