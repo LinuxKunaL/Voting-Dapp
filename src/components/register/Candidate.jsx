@@ -1,12 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import standingMan from "../../assets/images/Candidate_man.png";
 import LoadingBar from "react-top-loading-bar";
+import { useSelector } from "react-redux";
+import { web3, ContractInstance } from "../../app/ConnectChain";
+import { AccountVerification } from "../../app/ContractVerification";
+import { ToastFailure, ToastSuccess } from "../../app/Toast";
+import { Toaster } from "react-hot-toast";
 
 function Candidate() {
+  const EthAccount = useSelector((State) => State.EthAccount);
+  const [FromData, setFromData] = useState({
+    name: "",
+    party: "",
+    gender: "",
+    age: "",
+  });
+  const HandelSubmitForm = async (event) => {
+    event.preventDefault();
+    if (FormData.age < 18) {
+      ToastFailure("Age are not capable ! 💔 ");
+      return null;
+    } else if (EthAccount == 0) {
+      ToastFailure("Please connect to Metamask ! 💔 ");
+      return null;
+    } else if (await AccountVerification(EthAccount)) {
+      ToastFailure("You are already registered ! 💔");
+      return null;
+    }
+    try {
+      const response = await ContractInstance.methods
+        .CandidateRegister(
+          FromData.name,
+          FromData.party,
+          FromData.gender,
+          FromData.age
+        )
+        .send({
+          from: EthAccount,
+          gas: 480000,
+        });
+      ToastSuccess(
+        "Candidate register successful ! 🎉 " +
+          web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <section className="bg-white dark:bg-gray-900 ">
       <LoadingBar color="#08daf1" progress={100} />
-
+      <Toaster position="left" />
       <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12 flex flex-col gap-4 justify-center items-center">
         <h1 className="mb-4 text-4xl font-semibold tracking-tight leading-auto text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
           <span className="text-transparent bg-clip-text bg-gradient-to-r to-cyan-300 from-sky-400">
@@ -22,7 +66,10 @@ function Candidate() {
             alt="man"
           />
           <div className="border border-[#1f2937] p-8 rounded-md w-fit hover:shadow-2xl h-min">
-            <form className="max-w-sm flex flex-col">
+            <form
+              onSubmit={HandelSubmitForm}
+              className="max-w-sm flex flex-col"
+            >
               <div className="mb-5">
                 <label
                   htmlFor="name"
@@ -33,6 +80,13 @@ function Candidate() {
                 <input
                   type="text"
                   id="name"
+                  name="name"
+                  onChange={(e) =>
+                    setFromData({
+                      ...FromData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                   className="shadow-sm bg-gray-50 border outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500 dark:shadow-sm-light"
                   placeholder="ex. kunal lokhande"
                   required
@@ -48,6 +102,13 @@ function Candidate() {
                 <input
                   type="text"
                   id="Party"
+                  name="party"
+                  onChange={(e) =>
+                    setFromData({
+                      ...FromData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                   className="shadow-sm bg-gray-50 border outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500 dark:shadow-sm-light"
                   placeholder="ex. BJP"
                   required
@@ -63,6 +124,13 @@ function Candidate() {
                 <input
                   type="number"
                   id="age"
+                  name="age"
+                  onChange={(e) =>
+                    setFromData({
+                      ...FromData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                   className="shadow-sm bg-gray-50 border outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500 dark:shadow-sm-light"
                   placeholder="ex. 19"
                   required
@@ -78,6 +146,13 @@ function Candidate() {
                 <input
                   type="text"
                   id="gender"
+                  name="gender"
+                  onChange={(e) =>
+                    setFromData({
+                      ...FromData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                   className="shadow-sm bg-gray-50 border outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500 dark:shadow-sm-light"
                   placeholder="ex. female"
                   required

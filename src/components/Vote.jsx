@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import standing_man_handUps from "../assets/images/standing_man_handUps.png";
 import LoadingBar from "react-top-loading-bar";
+import { ContractInstance } from "../app/ConnectChain";
+import { useSelector } from "react-redux";
 
 function Vote() {
+  const EthAccount = useSelector((State) => State.EthAccount);
+  const [Vote, setVote] = useState(0);
+
+  const HandleVoteSubmit = async (event) => {
+    event.preventDefault();
+
+    await ContractInstance.methods
+      .vote()
+      .send({ form: EthAccount, gas: 480000 });
+  };
   return (
     <section className="bg-white dark:bg-gray-900 ">
       <LoadingBar color="#08daf1" progress={100} />
@@ -21,7 +33,10 @@ function Vote() {
             alt="man"
           />
           <div className="border border-[#1f2937] p-8 rounded-md w-fit hover:shadow-2xl h-min">
-            <form className="max-w-sm flex flex-col">
+            <form
+              onSubmit={HandleVoteSubmit}
+              className="max-w-sm flex flex-col"
+            >
               <div className="mb-5">
                 <label
                   htmlFor="name"
@@ -32,6 +47,7 @@ function Vote() {
                 <input
                   type="text"
                   id="name"
+                  onChange={(e) => HandleVoteSubmit(e.target.value)}
                   className="shadow-sm bg-gray-50 border outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500 dark:shadow-sm-light"
                   placeholder="ex. 543"
                   required
@@ -47,7 +63,7 @@ function Vote() {
                 type="submit"
                 className="text-white bg-cyan-700 mt-5 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
               >
-               Vote candidate
+                Vote candidate
               </button>
             </form>
           </div>

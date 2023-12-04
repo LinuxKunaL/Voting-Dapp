@@ -3,6 +3,9 @@ import standingMan from "../../assets/images/standing_man.png";
 import LoadingBar from "react-top-loading-bar";
 import { useSelector } from "react-redux";
 import { web3, ContractInstance } from "../../app/ConnectChain";
+import { AccountVerification } from "../../app/ContractVerification";
+import { ToastFailure, ToastSuccess } from "../../app/Toast";
+import { Toaster } from "react-hot-toast";
 
 function Voter() {
   const EthAccount = useSelector((state) => state.EthAccount);
@@ -16,10 +19,23 @@ function Voter() {
   const HandleFormSubmit = async (event) => {
     event.preventDefault();
     try {
+      if (FormData.age < 18) {
+        ToastFailure("Age are not capable ! 💔 ");
+        return null;
+      } else if (EthAccount == 0) {
+        ToastFailure("Please connect to Metamask ! 💔 ");
+        return null;
+      } else if (await AccountVerification(EthAccount)) {
+        ToastFailure("Voter already register ! 💔 ");
+        return null;
+      }
       const response = await ContractInstance.methods
         .VoterRegister(FormData.name, FormData.gender, FormData.age)
-        .send({ from: EthAccount,gas:480000 });
-      console.log(response);
+        .send({ from: EthAccount, gas: 480000 });
+      ToastSuccess(
+        "Voter register successful ! 🎉 " +
+          web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
+      );
     } catch (error) {
       console.log(error.message);
     }
@@ -28,6 +44,7 @@ function Voter() {
   return (
     <section className="bg-white dark:bg-gray-900 ">
       <LoadingBar color="#08daf1" progress={100} />
+      <Toaster position="left" />
 
       <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12 flex flex-col gap-4 justify-center items-center">
         <h1 className="mb-4 text-4xl font-semibold tracking-tight leading-auto text-gray-900 md:text-3xl lg:text-4xl dark:text-white">

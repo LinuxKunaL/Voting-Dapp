@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const stateRedux = createSlice({
-  initialState: "0x000000",
+  initialState: 0,
   name: "EthAccount",
   reducers: {
     setAddress: (state, action) => {

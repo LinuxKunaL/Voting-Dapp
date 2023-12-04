@@ -15,7 +15,7 @@ function Navbar() {
   const Dispatch = useDispatch();
   const [account, setAccount] = useState({
     metamask: false,
-    account: "0x0000000000000",
+    account: "0",
     balance: "10 ETH",
   });
   const [Counter, setCounter] = useState(0);
@@ -32,9 +32,9 @@ function Navbar() {
           setAccount({
             metamask: true,
             account: account[0],
-            balance: balanceEth.toString().slice(0, 5),
+            balance: balanceEth.toString(),
           });
-          Dispatch(setAddress(account[0]))
+          Dispatch(setAddress(account[0]));
         })
         .catch((error) => {
           console.error(error);
@@ -67,6 +67,7 @@ function Navbar() {
     localStorage.setItem("metamask", false);
     setCounter(Counter + 1);
     ToastSuccess("disconnected ! 🎉");
+    useDispatch(setAddress(0));
   };
 
   return (
@@ -149,8 +150,13 @@ function Navbar() {
                 alt=""
               />
               <div className="font-medium dark:text-white flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  {account.balance} ETH <FaEthereum />
+                <div className="flex flex-row items-center gap-2">
+                  <span
+                    title={account.balance}
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    {account.balance.slice(0, 5)} ETH <FaEthereum />
+                  </span>
                   <button
                     type="button"
                     onClick={() => logoutMetamask()}
@@ -160,7 +166,10 @@ function Navbar() {
                     <RiLogoutCircleRLine />
                   </button>
                 </div>
-                <div className="text-sm text-gray-500 dark:text-gray-400">
+                <div
+                  title={account.account}
+                  className="text-sm text-gray-500 dark:text-gray-400 cursor-pointer"
+                >
                   {account.account.slice(0, 7) +
                     "..." +
                     account.account.slice(37)}
