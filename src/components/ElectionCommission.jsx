@@ -1,7 +1,6 @@
 import React from "react";
 import LoadingBar from "react-top-loading-bar";
 import big_man from "../assets/images/big_man.png";
-import * as s from "../app/parti";
 
 function ElectionCommission() {
   return (
@@ -32,10 +31,10 @@ function ElectionCommission() {
               >
                 Start time
               </label>{" "}
-              <div class="relative max-w-sm">
+              <div className="relative max-w-sm">
                 <input
                   type="datetime-local"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 outline-none focus:border-cyan-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 outline-none focus:border-cyan-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
                   placeholder="Select date"
                 />
               </div>
@@ -45,15 +44,15 @@ function ElectionCommission() {
               >
                 End time
               </label>{" "}
-              <div class="relative max-w-sm">
+              <div className="relative max-w-sm">
                 <input
                   type="datetime-local"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 outline-none before:focus:border-cyan-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 outline-none before:focus:border-cyan-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
                   placeholder="Select date"
                 />
               </div>
               <label
-                for="terms"
+                htmlFor="terms"
                 className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 Your data are store in blockchain ⛓

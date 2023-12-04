@@ -25,7 +25,7 @@ function Candidate() {
             <form className="max-w-sm flex flex-col">
               <div className="mb-5">
                 <label
-                  for="name"
+                  htmlFor="name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Your name
@@ -40,7 +40,7 @@ function Candidate() {
               </div>
               <div className="mb-5">
                 <label
-                  for="Party"
+                  htmlFor="Party"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Your Party
@@ -55,7 +55,7 @@ function Candidate() {
               </div>
               <div className="mb-5">
                 <label
-                  for="age"
+                  htmlFor="age"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Your age
@@ -70,7 +70,7 @@ function Candidate() {
               </div>
               <div className="mb-5">
                 <label
-                  for="name"
+                  htmlFor="name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Your gender
@@ -84,7 +84,7 @@ function Candidate() {
                 />
               </div>
               <label
-                for="terms"
+                htmlFor="terms"
                 className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 Your data are store in blockchain ⛓

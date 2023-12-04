@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LoadingBar from "react-top-loading-bar";
 import man_2HandUps from "../assets/images/man_2HandUps.png";
+import { ContractInstance } from "../app/ConnectChain";
+import { TbMoodEmptyFilled } from "react-icons/tb";
 
 function Lists() {
+  const [ListOfCandidate, setListOfCandidate] = useState([]);
+  const [ListOfVoter, setListOfVoter] = useState([]);
+  useEffect(() => {
+    const fetching = async () => {
+      const Candidate = await ContractInstance.methods.CandidateList().call();
+      const Voter = await ContractInstance.methods.VoterList().call();
+      setListOfVoter(Voter);
+      setListOfCandidate(Candidate);
+    };
+    fetching();
+  }, []);
   return (
     <section className="bg-white dark:bg-gray-900 flex justify-between flex-col flex-wrap gap-2 items-center">
       <LoadingBar color="#08daf1" progress={100} />
@@ -20,54 +33,48 @@ function Lists() {
       </div>
       <div className="flex justify-around gap-2 items-center flex-wrap w-full">
         <div className="flex gap-2 flex-col">
-          <h4 class="text-xl font-semibold dark:text-white">
+          <h4 className="text-xl font-semibold dark:text-white">
             Candidates Lists
           </h4>
-          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <th scope="col" class="px-6 py-3">
-                    Id
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Name
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Party
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Gender
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    age
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td class="px-6 py-4">1</td>
-                  <td class="px-6 py-4">kunal lokhande</td>
-                  <td class="px-6 py-4">BJP</td>
-                  <td class="px-6 py-4">male</td>
-                  <td class="px-6 py-4">20</td>
-                </tr>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td class="px-6 py-4">2</td>
-                  <td class="px-6 py-4">satyam shinde</td>
-                  <td class="px-6 py-4">BJP-pune</td>
-                  <td class="px-6 py-4">male</td>
-                  <td class="px-6 py-4">18</td>
-                </tr>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td class="px-6 py-4">3</td>
-                  <td class="px-6 py-4">Divya lokhande</td>
-                  <td class="px-6 py-4">Congras</td>
-                  <td class="px-6 py-4">female</td>
-                  <td class="px-6 py-4">18</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            {ListOfCandidate.length != 0 ? (
+              <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">
+                      Id
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Name
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Party
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Gender
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      age
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ListOfCandidate.map((item) => (
+                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                      <td className="px-6 py-4">{item.id.toString()}</td>
+                      <td className="px-6 py-4">{item.name}</td>
+                      <td className="px-6 py-4">{item.party}</td>
+                      <td className="px-6 py-4">{item.gender}</td>
+                      <td className="px-6 py-4">{item.age.toString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div className="w-full flex items-center justify-between p-3 text-gray-500 bg-white border-b dark:bg-gray-800 dark:border-gray-700 ">
+                No Candidates <TbMoodEmptyFilled />
+              </div>
+            )}
           </div>
         </div>
         <img
@@ -78,46 +85,42 @@ function Lists() {
           alt=""
         />
         <div className="flex gap-2 flex-col">
-          <h4 class="text-xl font-semibold dark:text-white">Voters Lists</h4>
-          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <th scope="col" class="px-6 py-3">
-                    Id
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Name
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Party
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Gender
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td class="px-6 py-4">1</td>
-                  <td class="px-6 py-4">kunal lokhande</td>
-                  <td class="px-6 py-4">BJP</td>
-                  <td class="px-6 py-4">male</td>
-                </tr>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td class="px-6 py-4">2</td>
-                  <td class="px-6 py-4">satyam shinde</td>
-                  <td class="px-6 py-4">BJP-pune</td>
-                  <td class="px-6 py-4">male</td>
-                </tr>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td class="px-6 py-4">3</td>
-                  <td class="px-6 py-4">Divya lokhande</td>
-                  <td class="px-6 py-4">Congras</td>
-                  <td class="px-6 py-4">female</td>
-                </tr>
-              </tbody>
-            </table>
+          <h4 className="text-xl font-semibold dark:text-white">Voters Lists</h4>
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            {ListOfVoter.length != 0 ? (
+              <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">
+                      Id
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Name
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Gender
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Age
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ListOfVoter.map((item) => (
+                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                      <td className="px-6 py-4">{item.id.toString()}</td>
+                      <td className="px-6 py-4">{item.name}</td>
+                      <td className="px-6 py-4">{item.gender}</td>
+                      <td className="px-6 py-4">{item.age.toString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div className="w-full flex items-center justify-between p-3 text-gray-500 bg-white border-b dark:bg-gray-800 dark:border-gray-700 ">
+                No Voter <TbMoodEmptyFilled />
+              </div>
+            )}
           </div>
         </div>
       </div>

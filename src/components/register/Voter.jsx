@@ -1,8 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import standingMan from "../../assets/images/standing_man.png";
 import LoadingBar from "react-top-loading-bar";
+import { useSelector } from "react-redux";
+import { web3, ContractInstance } from "../../app/ConnectChain";
 
 function Voter() {
+  const EthAccount = useSelector((state) => state.EthAccount);
+
+  const [FormData, setFormData] = useState({
+    name: "",
+    age: "",
+    gender: "",
+  });
+
+  const HandleFormSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await ContractInstance.methods
+        .VoterRegister(FormData.name, FormData.gender, FormData.age)
+        .send({ from: EthAccount,gas:480000 });
+      console.log(response);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <section className="bg-white dark:bg-gray-900 ">
       <LoadingBar color="#08daf1" progress={100} />
@@ -22,10 +44,13 @@ function Voter() {
             alt="man"
           />
           <div className="border border-[#1f2937] p-8 rounded-md w-fit hover:shadow-2xl h-min">
-            <form className="max-w-sm flex flex-col">
+            <form
+              onSubmit={HandleFormSubmit}
+              className="max-w-sm flex flex-col"
+            >
               <div className="mb-5">
                 <label
-                  for="name"
+                  htmlFor="name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Your name
@@ -33,6 +58,13 @@ function Voter() {
                 <input
                   type="text"
                   id="name"
+                  name="name"
+                  onChange={(e) =>
+                    setFormData({
+                      ...FormData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                   className="shadow-sm bg-gray-50 border outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500 dark:shadow-sm-light"
                   placeholder="ex. kunal lokhande"
                   required
@@ -40,7 +72,7 @@ function Voter() {
               </div>
               <div className="mb-5">
                 <label
-                  for="age"
+                  htmlFor="age"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Your age
@@ -48,6 +80,13 @@ function Voter() {
                 <input
                   type="number"
                   id="age"
+                  name="age"
+                  onChange={(e) =>
+                    setFormData({
+                      ...FormData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                   className="shadow-sm bg-gray-50 border outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500 dark:shadow-sm-light"
                   placeholder="ex. 19"
                   required
@@ -55,7 +94,7 @@ function Voter() {
               </div>
               <div className="mb-5">
                 <label
-                  for="name"
+                  htmlFor="name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Your gender
@@ -63,13 +102,20 @@ function Voter() {
                 <input
                   type="text"
                   id="gender"
+                  name="gender"
+                  onChange={(e) =>
+                    setFormData({
+                      ...FormData,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                   className="shadow-sm bg-gray-50 border outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500 dark:shadow-sm-light"
                   placeholder="ex. female"
                   required
                 />
               </div>
               <label
-                for="terms"
+                htmlFor="terms"
                 className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 Your data are store in blockchain ⛓

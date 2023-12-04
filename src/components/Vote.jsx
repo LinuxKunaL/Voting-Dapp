@@ -24,7 +24,7 @@ function Vote() {
             <form className="max-w-sm flex flex-col">
               <div className="mb-5">
                 <label
-                  for="name"
+                  htmlFor="name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Candidate id
@@ -38,7 +38,7 @@ function Vote() {
                 />
               </div>
               <label
-                for="terms"
+                htmlFor="terms"
                 className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 Your data are store in blockchain ⛓
