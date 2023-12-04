@@ -1,23 +1,47 @@
 import React, { useState } from "react";
 import standing_man_handUps from "../assets/images/standing_man_handUps.png";
 import LoadingBar from "react-top-loading-bar";
-import { ContractInstance } from "../app/ConnectChain";
+import { web3, ContractInstance } from "../app/ConnectChain";
 import { useSelector } from "react-redux";
-
+import {
+  DuplicateVoteVerification,
+  voterVerification,
+} from "../app/ContractVerification";
+import { ToastFailure, ToastSuccess } from "../app/Toast";
+import { Toaster } from "react-hot-toast";
 function Vote() {
   const EthAccount = useSelector((State) => State.EthAccount);
   const [Vote, setVote] = useState(0);
 
   const HandleVoteSubmit = async (event) => {
     event.preventDefault();
-
-    await ContractInstance.methods
-      .vote()
-      .send({ form: EthAccount, gas: 480000 });
+    if (EthAccount == 0) {
+      ToastFailure("Please connect Metamask ! 💔 ");
+      return null;
+    } else if (!(await voterVerification(EthAccount))) {
+      ToastFailure("You are not a voter ! 💔 ");
+      return null;
+    } else if (await DuplicateVoteVerification(EthAccount)) {
+      ToastFailure("You have only 1 change ! 💔 ");
+      return null;
+    }
+    try {
+      const response = await ContractInstance.methods
+        .vote(Vote)
+        .send({ from: EthAccount, gas: 480000 });
+      ToastSuccess(
+        "Voted successful ! 🎉 " +
+          web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <section className="bg-white dark:bg-gray-900 ">
       <LoadingBar color="#08daf1" progress={100} />
+      <Toaster position="left" />
       <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12 flex flex-col gap-4 justify-center items-center">
         <h1 className="mb-4 text-4xl font-semibold tracking-tight leading-auto text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
           <span className="text-transparent bg-clip-text bg-gradient-to-r to-cyan-300 from-sky-400">
@@ -46,8 +70,10 @@ function Vote() {
                 </label>
                 <input
                   type="text"
+                  pattern="[1-9]+"
+                  title="Please enter a number with digits 1-9 only."
                   id="name"
-                  onChange={(e) => HandleVoteSubmit(e.target.value)}
+                  onChange={(e) => setVote(e.target.value)}
                   className="shadow-sm bg-gray-50 border outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500 dark:shadow-sm-light"
                   placeholder="ex. 543"
                   required
