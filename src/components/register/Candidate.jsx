@@ -9,7 +9,7 @@ import { Toaster } from "react-hot-toast";
 
 function Candidate() {
   const EthAccount = useSelector((State) => State.EthAccount);
-  const [FromData, setFromData] = useState({
+  const [FormData, setFormData] = useState({
     name: "",
     party: "",
     gender: "",
@@ -21,7 +21,7 @@ function Candidate() {
       ToastFailure("Age are not capable ! 💔 ");
       return null;
     } else if (EthAccount == 0) {
-      ToastFailure("Please connect to Metamask ! 💔 ");
+      ToastFailure("Please connect Metamask ! 💔 ");
       return null;
     } else if (await AccountVerification(EthAccount)) {
       ToastFailure("You are already registered ! 💔");
@@ -30,10 +30,10 @@ function Candidate() {
     try {
       const response = await ContractInstance.methods
         .CandidateRegister(
-          FromData.name,
-          FromData.party,
-          FromData.gender,
-          FromData.age
+          FormData.name,
+          FormData.party,
+          FormData.gender,
+          FormData.age
         )
         .send({
           from: EthAccount,
@@ -44,6 +44,7 @@ function Candidate() {
           web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
       );
     } catch (error) {
+      ToastFailure(error.message + " ! 💔 ");
       console.log(error);
     }
   };
@@ -82,8 +83,8 @@ function Candidate() {
                   id="name"
                   name="name"
                   onChange={(e) =>
-                    setFromData({
-                      ...FromData,
+                    setFormData({
+                      ...FormData,
                       [e.target.name]: e.target.value,
                     })
                   }
@@ -104,8 +105,8 @@ function Candidate() {
                   id="Party"
                   name="party"
                   onChange={(e) =>
-                    setFromData({
-                      ...FromData,
+                    setFormData({
+                      ...FormData,
                       [e.target.name]: e.target.value,
                     })
                   }
@@ -126,8 +127,8 @@ function Candidate() {
                   id="age"
                   name="age"
                   onChange={(e) =>
-                    setFromData({
-                      ...FromData,
+                    setFormData({
+                      ...FormData,
                       [e.target.name]: e.target.value,
                     })
                   }
@@ -148,8 +149,8 @@ function Candidate() {
                   id="gender"
                   name="gender"
                   onChange={(e) =>
-                    setFromData({
-                      ...FromData,
+                    setFormData({
+                      ...FormData,
                       [e.target.name]: e.target.value,
                     })
                   }

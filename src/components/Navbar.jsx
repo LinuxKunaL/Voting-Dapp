@@ -66,8 +66,7 @@ function Navbar() {
   const logoutMetamask = () => {
     localStorage.setItem("metamask", false);
     setCounter(Counter + 1);
-    ToastSuccess("disconnected ! 🎉");
-    useDispatch(setAddress(0));
+    Dispatch(setAddress(0));
   };
 
   return (

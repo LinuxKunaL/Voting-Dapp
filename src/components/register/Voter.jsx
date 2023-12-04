@@ -23,7 +23,7 @@ function Voter() {
         ToastFailure("Age are not capable ! 💔 ");
         return null;
       } else if (EthAccount == 0) {
-        ToastFailure("Please connect to Metamask ! 💔 ");
+        ToastFailure("Please connect Metamask ! 💔 ");
         return null;
       } else if (await AccountVerification(EthAccount)) {
         ToastFailure("Voter already register ! 💔 ");
@@ -37,6 +37,7 @@ function Voter() {
           web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
       );
     } catch (error) {
+      ToastFailure(error.message + " ! 💔 ");
       console.log(error.message);
     }
   };
