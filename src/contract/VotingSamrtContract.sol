@@ -151,6 +151,23 @@ contract Voting {
         return winnerName;
     }
 
+    function ClearVotingData() public {
+        require(msg.sender == ElectionOwer, "Wrong call");
+
+        for (uint256 i = 0; i < candidateId; i++) {
+            delete candidateDetails[i];
+        }
+        for (uint256 i = 0; i < VoterId; i++) {
+            delete VoterDetails[i];
+        }
+
+        delete datetimes;
+
+        candidateId = 1;
+        VoterId = 1;
+        winnerName = "Not Declare";
+    }
+
     function setElectionTime(uint256 _StartTime, uint256 _EndTime) public {
         datetimes.StartDate = _StartTime;
         datetimes.EndDate = _EndTime;
