@@ -59,9 +59,6 @@ function Lists() {
                     <th scope="col" className="px-6 py-3">
                       address
                     </th>
-                    <th scope="col" className="px-6 py-3">
-                      vote
-                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -75,7 +72,6 @@ function Lists() {
                       <td className="px-6 py-4">
                         {item.Address.toString().slice(0, 6)}
                       </td>
-                      <td className="px-6 py-4">{item.votes.toString()}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -87,13 +83,13 @@ function Lists() {
             )}
           </div>
         </div>
-        {/* <img
+        <img
           src={man_2HandUps}
           height={420}
           width={340}
           style={{ filter: "drop-shadow(0px 30px 40px #5ec4f840)" }}
           alt=""
-        /> */}
+        />
         <div className="flex gap-2 flex-col">
           <h4 className="text-xl font-semibold dark:text-white">
             Voters Lists
@@ -118,9 +114,6 @@ function Lists() {
                     <th scope="col" className="px-6 py-3">
                       address
                     </th>
-                    <th scope="col" className="px-6 py-3">
-                      can id
-                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -132,9 +125,6 @@ function Lists() {
                       <td className="px-6 py-4">{item.age.toString()}</td>
                       <td className="px-6 py-4">
                         {item.Address.toString().slice(0, 6)}
-                      </td>
-                      <td className="px-6 py-4">
-                        {item.voteCandidateId.toString()}
                       </td>
                     </tr>
                   ))}

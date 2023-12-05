@@ -33,7 +33,3 @@ export const ElectionOwnerVerification = async (address) => {
   const OwnerAddress = await ContractInstance.methods.ElectionOwer().call();
   return OwnerAddress.toUpperCase() === address.toUpperCase();
 };
-
-// export const VotingStatusCheck = () => {
-//   return VotingDate.StartDate == 0 || VotingDate.EndDate == 0;
-// };
