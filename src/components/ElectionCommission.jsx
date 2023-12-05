@@ -1,12 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import LoadingBar from "react-top-loading-bar";
 import big_man from "../assets/images/big_man.png";
+import { web3, ContractInstance } from "../app/ConnectChain";
+import { ElectionOwnerVerification } from "../app/ContractVerification";
+import { useSelector } from "react-redux";
+import { ToastSuccess, ToastFailure } from "../app/Toast";
+import { Toaster } from "react-hot-toast";
 
 function ElectionCommission() {
+  const EthAccount = useSelector((state) => state.EthAccount);
+  const [InputDates, setInputDates] = useState({
+    StartDate: "",
+    EndDate: "",
+  });
+  const HandleSubmit = async (event) => {
+    event.preventDefault();
+    if (EthAccount == 0) {
+      ToastFailure("Please connect Metamask ! 💔 ");
+      return null;
+    } else if (!(await ElectionOwnerVerification(EthAccount))) {
+      ToastFailure("Your not election commission ! 💔");
+      return null;
+    } else {
+      const StartDate = new Date(InputDates.StartDate).getTime().toString();
+      const EndDate = new Date(InputDates.EndDate).getTime().toString();
+      const response = await ContractInstance.methods
+        .setElectionTime(StartDate, EndDate)
+        .send({ from: EthAccount, gas: 480000 });
+      console.log(response);
+    }
+  };
   return (
     <section className="bg-white dark:bg-gray-900 flex justify-between flex-col flex-wrap gap-2 items-center">
       <LoadingBar color="#08daf1" progress={100} />
-
+      <Toaster position="left" />
       <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
         <h1 className="mb-4 text-4xl font-semibold tracking-tight leading-auto text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
           <span className="text-transparent bg-clip-text bg-gradient-to-r to-cyan-300 from-sky-400">
@@ -24,7 +51,10 @@ function ElectionCommission() {
         />
         <div>
           <div className="border border-[#1f2937] p-8 rounded-md w-fit hover:shadow-2xl h-min">
-            <form className="max-w-sm flex flex-col gap-3">
+            <form
+              className="max-w-sm flex flex-col gap-3"
+              onSubmit={HandleSubmit}
+            >
               <label
                 className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                 htmlFor=""
@@ -36,6 +66,10 @@ function ElectionCommission() {
                   type="datetime-local"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 outline-none focus:border-cyan-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
                   placeholder="Select date"
+                  onChange={(e) =>
+                    setInputDates({ ...InputDates, StartDate: e.target.value })
+                  }
+                  required
                 />
               </div>
               <label
@@ -49,6 +83,10 @@ function ElectionCommission() {
                   type="datetime-local"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 outline-none before:focus:border-cyan-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
                   placeholder="Select date"
+                  onChange={(e) =>
+                    setInputDates({ ...InputDates, EndDate: e.target.value })
+                  }
+                  required
                 />
               </div>
               <label

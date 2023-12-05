@@ -27,3 +27,8 @@ export async function voterVerification(address) {
     item.Address.toUpperCase().includes(address.toUpperCase())
   );
 }
+
+export const ElectionOwnerVerification = async (address) => {
+  const OwnerAddress = await ContractInstance.methods.ElectionOwer().call();
+  return OwnerAddress.toUpperCase() === address.toUpperCase();
+};
