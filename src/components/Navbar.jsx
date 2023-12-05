@@ -5,20 +5,38 @@ import { FaEthereum } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { ToastSuccess, ToastFailure } from "../app/Toast";
-
-import { useDispatch } from "react-redux";
-import { setAddress } from "../app/stateRedux";
+import { ContractInstance } from "../app/ConnectChain";
+import { useDispatch, useSelector } from "react-redux";
+import { setAddress, setDateTime, setWinner } from "../app/stateRedux";
 
 import Web3 from "web3";
 
 function Navbar() {
   const Dispatch = useDispatch();
+  const ReduxCounter = useSelector((state) => state.stateCounter);
+  const VotingDate = useSelector((state) => state.VotingDateTime);
+  const Winner = useSelector((state) => state.WinnerId);
+
   const [account, setAccount] = useState({
     metamask: false,
     account: "0",
     balance: "10 ETH",
   });
   const [Counter, setCounter] = useState(0);
+
+  const [VoteDate, setVoteDate] = useState(VotingDate);
+
+  const ConvertDate = (time) => {
+    const Day = new Date(time).getDate();
+    const Month = new Date(time).getMonth();
+    const Year = new Date(time).getFullYear();
+
+    const Hour = new Date(time).getHours();
+    const Minute = new Date(time).getMinutes();
+
+    return `${Day} / ${Month} / ${Year} ${Hour}:${Minute}`;
+  };
+
   useEffect(() => {
     if (localStorage.getItem("metamask") == "true") {
       const web3 = new Web3(window.ethereum);
@@ -44,13 +62,65 @@ function Navbar() {
     }
   }, [Counter]);
 
+  useEffect(() => {
+    const fetching = async () => {
+      try {
+        const { StartDate, EndDate } = await ContractInstance.methods
+          .datetimes()
+          .call();
+
+        if (StartDate == 0 || EndDate == 0) {
+          setVoteDate({
+            StartDate: 0,
+            EndDate: 0,
+          });
+          Dispatch(
+            setDateTime({
+              StartDate: 0,
+              EndDate: 0,
+            })
+          );
+          return null;
+        } else if (new Date().getTime() >= parseInt(EndDate)) {
+          return null;
+        } else if (StartDate != 0 || EndDate != 0) {
+          setVoteDate({
+            StartDate: ConvertDate(parseInt(StartDate)),
+            EndDate: ConvertDate(parseInt(EndDate)),
+          });
+          Dispatch(
+            setDateTime({
+              StartDate: parseInt(StartDate),
+              EndDate: parseInt(EndDate),
+            })
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetching();
+  }, [ReduxCounter]);
+
+  useEffect(() => {
+    const fetching = async () => {
+      try {
+        const response = await ContractInstance.methods.winnerName().call();
+        Dispatch(setWinner(response));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetching();
+  }, [ReduxCounter]);
+
   const HandleConnectMetamask = async () => {
     if (window.ethereum) {
       window.ethereum
         .request({
           method: "eth_requestAccounts",
         })
-        .then((account) => {
+        .then(() => {
           localStorage.setItem("metamask", true);
           ToastSuccess("metamask connected ! 🎉");
           setCounter(Counter + 1);
@@ -190,20 +260,27 @@ function Navbar() {
             </button>
           )}
         </div>
-        <div className="flex gap-1 flex-row absolute top-20 border-gray-200 p-3 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 rounded-xl mt-5 left-0">
+
+        <div className="flex gap-1 flex-row items-center absolute top-20 border-gray-200 p-3 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 rounded-xl mt-5 left-0">
           <p className="tracking-tighter text-xl text-cyan-500 md:text-sm dark:text-cyan-400 ">
-            Vote Status
+            Voting Status :
           </p>
-          <p className="tracking-tighter text-xl text-gray-500 md:text-sm dark:text-gray-400">
-            : Closed
-          </p>
+          {VotingDate.StartDate != 0 ? (
+            <p className="tracking-tighter flex gap-2 text-xl text-gray-500 md:text-sm dark:text-gray-400">
+              <b className="text-cyan-300">{VoteDate.StartDate}</b>
+              To
+              <b className="text-cyan-300">{VoteDate.EndDate}</b>
+            </p>
+          ) : (
+            <p className="text-gray-400">{"  "}Closed</p>
+          )}
         </div>
         <div className="flex gap-1 flex-row absolute top-20 border-gray-200 p-3 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 rounded-xl mt-5 right-0">
           <p className="tracking-tighter text-xl text-cyan-500 md:text-sm dark:text-cyan-400 ">
             Winner is
           </p>
           <p className="tracking-tighter text-xl text-gray-500 md:text-sm dark:text-gray-400">
-            : None
+            : {Winner}
           </p>
         </div>
       </div>

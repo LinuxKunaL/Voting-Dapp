@@ -12,6 +12,7 @@ import { Toaster } from "react-hot-toast";
 function Vote() {
   const EthAccount = useSelector((State) => State.EthAccount);
   const [Vote, setVote] = useState(0);
+  const VotingDate = useSelector((state) => state.VotingDateTime);
 
   const HandleVoteSubmit = async (event) => {
     event.preventDefault();
@@ -23,6 +24,9 @@ function Vote() {
       return null;
     } else if (await DuplicateVoteVerification(EthAccount)) {
       ToastFailure("You have only 1 change ! 💔 ");
+      return null;
+    } else if (VotingDate.StartDate == 0 || VotingDate.EndDate == 0) {
+      ToastFailure("Voting are closed ! 💔 ");
       return null;
     }
     try {

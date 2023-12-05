@@ -1,5 +1,6 @@
 import { web3, ContractInstance } from "./ConnectChain";
 
+
 export async function AccountVerification(address) {
   const listOfVoter = await ContractInstance.methods.VoterList().call();
   const listOfCandidate = await ContractInstance.methods.CandidateList().call();
@@ -32,3 +33,7 @@ export const ElectionOwnerVerification = async (address) => {
   const OwnerAddress = await ContractInstance.methods.ElectionOwer().call();
   return OwnerAddress.toUpperCase() === address.toUpperCase();
 };
+
+// export const VotingStatusCheck = () => {
+//   return VotingDate.StartDate == 0 || VotingDate.EndDate == 0;
+// };

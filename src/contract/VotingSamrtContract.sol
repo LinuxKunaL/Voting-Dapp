@@ -23,8 +23,8 @@ contract Voting {
     }
 
     struct DateTime {
-        uint StartDate;
-        uint EndDate;
+        uint256 StartDate;
+        uint256 EndDate;
     }
 
     DateTime public datetimes;
@@ -34,6 +34,7 @@ contract Voting {
 
     uint256 candidateId = 1;
     uint256 VoterId = 1;
+    string public winnerName = "Not Declare";
 
     address public ElectionOwer;
 
@@ -66,9 +67,11 @@ contract Voting {
         candidateId += 1;
     }
 
-    function CandidateVerification(
-        address _sender
-    ) private view returns (bool) {
+    function CandidateVerification(address _sender)
+        private
+        view
+        returns (bool)
+    {
         for (uint256 i = 0; i < candidateId; i++) {
             if (candidateDetails[i].Address == _sender) {
                 return false;
@@ -136,8 +139,7 @@ contract Voting {
         candidateDetails[_candidateId].votes += 1;
     }
 
-    function WinnerCheck() public view returns (string memory) {
-        string memory winnerName = "tie";
+    function WinnerCheck() public returns (string memory) {
         uint256 maxVotes = 0;
 
         for (uint256 i = 1; i <= candidateId; i++) {
@@ -149,7 +151,7 @@ contract Voting {
         return winnerName;
     }
 
-    function setElectionTime(uint _StartTime, uint _EndTime) public {
+    function setElectionTime(uint256 _StartTime, uint256 _EndTime) public {
         datetimes.StartDate = _StartTime;
         datetimes.EndDate = _EndTime;
     }

@@ -3,7 +3,10 @@ import standingMan from "../../assets/images/Candidate_man.png";
 import LoadingBar from "react-top-loading-bar";
 import { useSelector } from "react-redux";
 import { web3, ContractInstance } from "../../app/ConnectChain";
-import { AccountVerification } from "../../app/ContractVerification";
+import {
+  AccountVerification,
+  ElectionOwnerVerification,
+} from "../../app/ContractVerification";
 import { ToastFailure, ToastSuccess } from "../../app/Toast";
 import { Toaster } from "react-hot-toast";
 
@@ -15,15 +18,19 @@ function Candidate() {
     gender: "",
     age: "",
   });
+  console.log(EthAccount.toString());
   const HandelSubmitForm = async (event) => {
     event.preventDefault();
-    if (FormData.age < 18) {
+    if (await ElectionOwnerVerification(EthAccount.toString())) {
+      ToastFailure("Owner can't register! 💔 ");
+      return null;
+    } else if (FormData.age < 18) {
       ToastFailure("Age are not capable ! 💔 ");
       return null;
     } else if (EthAccount == 0) {
       ToastFailure("Please connect Metamask ! 💔 ");
       return null;
-    } else if (await AccountVerification(EthAccount)) {
+    } else if (await AccountVerification(EthAccount.toString())) {
       ToastFailure("You are already registered ! 💔");
       return null;
     }

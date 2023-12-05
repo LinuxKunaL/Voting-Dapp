@@ -14,7 +14,7 @@ body {
 }
 
 .blue-box {
-  animation: float 7.5s infinite cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  animation: float 3.5s infinite cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 
 @keyframes float {

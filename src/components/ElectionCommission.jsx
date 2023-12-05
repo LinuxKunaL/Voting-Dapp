@@ -3,23 +3,28 @@ import LoadingBar from "react-top-loading-bar";
 import big_man from "../assets/images/big_man.png";
 import { web3, ContractInstance } from "../app/ConnectChain";
 import { ElectionOwnerVerification } from "../app/ContractVerification";
-import { useSelector } from "react-redux";
-import { ToastSuccess, ToastFailure } from "../app/Toast";
+import { useSelector, useDispatch } from "react-redux";
+import { setCounter } from "../app/stateRedux";
+import { ToastSuccess, ToastFailure, ToastWarring } from "../app/Toast";
 import { Toaster } from "react-hot-toast";
-
 function ElectionCommission() {
   const EthAccount = useSelector((state) => state.EthAccount);
+  const Counter = useSelector((state) => state.stateCounter);
+  const Dispatch = useDispatch();
+  const VotingDate = useSelector((state) => state.VotingDateTime);
+
   const [InputDates, setInputDates] = useState({
     StartDate: "",
     EndDate: "",
   });
+
   const HandleSubmit = async (event) => {
     event.preventDefault();
     if (EthAccount == 0) {
       ToastFailure("Please connect Metamask ! 💔 ");
       return null;
     } else if (!(await ElectionOwnerVerification(EthAccount))) {
-      ToastFailure("Your not election commission ! 💔");
+      ToastFailure("Your are not owner ! 💔");
       return null;
     } else {
       const StartDate = new Date(InputDates.StartDate).getTime().toString();
@@ -27,9 +32,76 @@ function ElectionCommission() {
       const response = await ContractInstance.methods
         .setElectionTime(StartDate, EndDate)
         .send({ from: EthAccount, gas: 480000 });
-      console.log(response);
+      Dispatch(setCounter(Counter + 1));
+      ToastSuccess(
+        "Date's Updated successful ! 🎉 " +
+          web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
+      );
     }
   };
+
+  const StopElection = async () => {
+    if (EthAccount == 0) {
+      ToastFailure("Please connect Metamask ! 💔 ");
+      return null;
+    } else if (!(await ElectionOwnerVerification(EthAccount))) {
+      ToastFailure("Your are not owner ! 💔");
+      return null;
+    } else {
+      const StartDate = "0";
+      const EndDate = "0";
+      const response = await ContractInstance.methods
+        .setElectionTime(StartDate, EndDate)
+        .send({ from: EthAccount, gas: 480000 });
+      Dispatch(setCounter(Counter + 1));
+      ToastWarring(
+        "Voting Close successful ! 🎉 " +
+          web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
+      );
+    }
+  };
+
+  const HandelShowResult = async () => {
+    if (EthAccount == 0) {
+      ToastFailure("Please connect Metamask ! 💔 ");
+      return null;
+    } else if (!(await ElectionOwnerVerification(EthAccount))) {
+      ToastFailure("Your are not owner ! 💔");
+      return null;
+    } else if (VotingDate.StartDate != 0 || VotingDate.EndDate != 0) {
+      ToastFailure("Voting is running ! 💔");
+      return null;
+    } else {
+      const response = await ContractInstance.methods
+        .WinnerCheck()
+        .send({ from: EthAccount, gas: 480000 });
+      Dispatch(setCounter(Counter + 1));
+      ToastSuccess(
+        "Winner declare successful ! 🎉 " +
+          web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
+      );
+    }
+  };
+
+  const HandelClearContractData = async () => {
+    if (EthAccount == 0) {
+      ToastFailure("Please connect Metamask ! 💔 ");
+      return null;
+    } else if (!(await ElectionOwnerVerification(EthAccount))) {
+      ToastFailure("Your are not owner ! 💔");
+      return null;
+    } else {
+      const response = await ContractInstance.methods
+        .ClearVotingData()
+        .send({ from: EthAccount, gas: 480000 });
+      Dispatch(setCounter(Counter + 1));
+      ToastSuccess(
+        "Data Clear successful ! 🎉 " +
+          web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
+      );
+    }
+  };
+
   return (
     <section className="bg-white dark:bg-gray-900 flex justify-between flex-col flex-wrap gap-2 items-center">
       <LoadingBar color="#08daf1" progress={100} />
@@ -106,12 +178,21 @@ function ElectionCommission() {
           <div className="flex justify-between">
             <button
               type="submit"
+              onClick={HandelShowResult}
               className="text-white bg-green-700 mt-5 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
             >
               Result
             </button>
             <button
               type="submit"
+              onClick={HandelClearContractData}
+              className="text-white bg-yellow-700 mt-5 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800"
+            >
+              Clear data
+            </button>
+            <button
+              type="submit"
+              onClick={StopElection}
               className="text-white bg-red-700 mt-5 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
             >
               Emergency

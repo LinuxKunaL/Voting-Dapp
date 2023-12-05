@@ -1,9 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
-import stateRedux from "./stateRedux";
+import {
+  stateRedux,
+  stateCounter,
+  stateDateTime,
+  stateWinner,
+} from "./stateRedux";
 
 const store = configureStore({
   reducer: {
-    EthAccount: stateRedux,
+    EthAccount: stateRedux.reducer,
+    stateCounter: stateCounter.reducer,
+    VotingDateTime: stateDateTime.reducer,
+    WinnerId: stateWinner.reducer,
   },
 });
 

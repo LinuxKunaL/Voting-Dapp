@@ -84,6 +84,13 @@
 	},
 	{
 		"inputs": [],
+		"name": "ClearVotingData",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "ElectionOwer",
 		"outputs": [
 			{
@@ -217,7 +224,7 @@
 				"type": "string"
 			}
 		],
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -316,6 +323,19 @@
 		"name": "vote",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "winnerName",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	}
 ]
