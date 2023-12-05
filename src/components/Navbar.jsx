@@ -140,12 +140,12 @@ function Navbar() {
   };
 
   return (
-    <nav className="border-gray-200 bg-gray-50 dark:bg-gray-800/70 backdrop-blur-10 dark:border-gray-700 rounded-xl mt-4 sticky top-0">
+    <nav className="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 rounded-xl mt-4 sticky top-0">
       <Toaster position="left" />
       <div className="flex relative flex-wrap items-center justify-between mx-auto p-4">
         <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            Vote{" "}
+            Gigapol{" "}
             <span className="text-cyan-500 text-sm font-light">by kunal</span>
           </span>
         </a>
