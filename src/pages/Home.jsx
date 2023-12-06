@@ -40,9 +40,9 @@ function Home() {
             </a>
           </Link>
         </div>
-        <div className="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
+        <div className="flex justify-center">
           <img
-            className="blue-box"
+            className="blue-box w-1/2 md:w-auto"
             style={{ filter: "drop-shadow(0px 30px 120px #5ec4f8)" }}
             // style={{ filter: "drop-shadow(0px 30px 120px #1749aa89)" }}
             src={blue_block}

@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  font-family: 'Outfit', sans-serif !important;
+  /* font-family: 'Poppins', sans-serif; */
+}
+
 body {
   /* background: rgb(246, 246, 246); */
   /* background: linear-gradient(90deg, rgba(77, 53, 199, 1) 0%, rgba(224, 51, 51, 1) 50%, rgba(246, 161, 44, 1) 100%); */
@@ -15,6 +20,10 @@ body {
 
 .blue-box {
   animation: float 3.5s infinite cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.show-nav{
+  display: block;
 }
 
 @keyframes float {
@@ -46,4 +55,13 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   padding: 5px;
   position: absolute;
   left: 0.5pc;
+}
+
+@media (max-width:398px) {
+
+  .winner,
+  .status {
+    position: relative;
+    top: 0;
+  }
 }

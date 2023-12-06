@@ -140,7 +140,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 rounded-xl mt-4 sticky top-0">
+    <nav className="border-gray-200 z-10 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 rounded-xl sm:mt-4  sticky top-0">
       <Toaster position="left" />
       <div className="flex relative flex-wrap items-center justify-between mx-auto p-4">
         <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -151,6 +151,11 @@ function Navbar() {
         </a>
         <button
           data-collapse-toggle="navbar-solid-bg"
+          onClick={() => {
+            document
+              .getElementById("navbar-solid-bg")
+              .classList.toggle("show-nav");
+          }}
           type="button"
           className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
           aria-controls="navbar-solid-bg"
@@ -173,7 +178,10 @@ function Navbar() {
             />
           </svg>
         </button>
-        <div className="hidden w-full md:block md:w-auto" id="navbar-solid-bg">
+        <div
+          className="hidden z-50 absolute md:relative top-20 left-0 md:top-auto md:left-auto w-full md:block md:w-auto"
+          id="navbar-solid-bg"
+        >
           <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
             <li>
               <Link
@@ -261,25 +269,26 @@ function Navbar() {
           )}
         </div>
 
-        <div className="flex gap-1 flex-row items-center absolute top-20 border-gray-200 p-3 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 rounded-xl mt-5 left-0">
-          <p className="tracking-tighter text-xl text-cyan-500 md:text-sm dark:text-cyan-400 ">
+        <div className="status flex gap-1 flex-row items-center absolute top-20 border-gray-200 p-3 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 rounded-xl sm:mt-5 mt-1 left-0">
+          <p className="tracking-tighter text-sm text-cyan-500 md:text-sm dark:text-cyan-400 ">
             Voting Status :
           </p>
           {VotingDate.StartDate != 0 ? (
-            <p className="tracking-tighter flex gap-2 text-xl text-gray-500 md:text-sm dark:text-gray-400">
+            <p className="tracking-tighter flex gap-2 text-sm text-gray-500 md:text-sm dark:text-gray-400">
               <b className="text-cyan-300">{VoteDate.StartDate}</b>
               To
               <b className="text-cyan-300">{VoteDate.EndDate}</b>
             </p>
           ) : (
-            <p className="text-gray-400">{"  "}Closed</p>
+            <p className="text-gray-400 text-sm">{"  "}Closed</p>
           )}
         </div>
-        <div className="flex gap-1 flex-row absolute top-20 border-gray-200 p-3 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 rounded-xl mt-5 right-0">
-          <p className="tracking-tighter text-xl text-cyan-500 md:text-sm dark:text-cyan-400 ">
+
+        <div className="winner flex gap-1 flex-row absolute top-20 border-gray-200 p-3 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 rounded-xl sm:mt-5 mt-1 right-0">
+          <p className="tracking-tighter text-sm text-cyan-500 md:text-sm dark:text-cyan-400 ">
             Winner is
           </p>
-          <p className="tracking-tighter text-xl text-gray-500 md:text-sm dark:text-gray-400">
+          <p className="tracking-tighter text-sm text-gray-500 md:text-sm dark:text-gray-400">
             : {Winner}
           </p>
         </div>
