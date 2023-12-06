@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import LoadingBar from "react-top-loading-bar";
 import man_2HandUps from "../assets/images/man_2HandUps.png";
-import { ContractInstance } from "../app/ConnectChain";
+import { ContractInstanceTestNet } from "../app/ConnectChain";
 import { TbMoodEmptyFilled } from "react-icons/tb";
 
 function Lists() {
@@ -9,8 +9,10 @@ function Lists() {
   const [ListOfVoter, setListOfVoter] = useState([]);
   useEffect(() => {
     const fetching = async () => {
-      const Candidate = await ContractInstance.methods.CandidateList().call();
-      const Voter = await ContractInstance.methods.VoterList().call();
+      const Candidate = await ContractInstanceTestNet.methods
+        .CandidateList()
+        .call();
+      const Voter = await ContractInstanceTestNet.methods.VoterList().call();
       setListOfVoter(Voter);
       setListOfCandidate(Candidate);
     };

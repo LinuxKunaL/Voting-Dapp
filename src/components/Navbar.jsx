@@ -5,7 +5,7 @@ import { FaEthereum } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { ToastSuccess, ToastFailure } from "../app/Toast";
-import { ContractInstance } from "../app/ConnectChain";
+import { ContractInstanceTestNet } from "../app/ConnectChain";
 import { useDispatch, useSelector } from "react-redux";
 import { setAddress, setDateTime, setWinner } from "../app/stateRedux";
 
@@ -47,6 +47,7 @@ function Navbar() {
         .then(async (account) => {
           const balanceWei = await web3.eth.getBalance(account[0]);
           const balanceEth = web3.utils.fromWei(balanceWei, "ether");
+          // await window.ethereum;
           setAccount({
             metamask: true,
             account: account[0],
@@ -65,7 +66,7 @@ function Navbar() {
   useEffect(() => {
     const fetching = async () => {
       try {
-        const { StartDate, EndDate } = await ContractInstance.methods
+        const { StartDate, EndDate } = await ContractInstanceTestNet.methods
           .datetimes()
           .call();
 
@@ -105,7 +106,9 @@ function Navbar() {
   useEffect(() => {
     const fetching = async () => {
       try {
-        const response = await ContractInstance.methods.winnerName().call();
+        const response = await ContractInstanceTestNet.methods
+          .winnerName()
+          .call();
         Dispatch(setWinner(response));
       } catch (error) {
         console.log(error);
