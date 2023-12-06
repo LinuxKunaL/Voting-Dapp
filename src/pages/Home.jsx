@@ -1,6 +1,6 @@
 import React from "react";
 import blue_block from "../assets/images/blue_hexagonal.png";
-import { FaUserTie, FaUsers } from "react-icons/fa";
+import { FaUserTie, FaUsers, FaGithub } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
 function Home() {
@@ -16,9 +16,12 @@ function Home() {
           </span>
           with Blockchain
         </h1>
-        <p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
+        <p className="mb-8 flex flex-col items-center text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
           Explore the future of secure and transparent voting systems powered by
           blockchain technology. Your voice matters!
+          <p onClick={()=>window.location="https://github.com/LinuxKunaL/Voting-Dapp"} className="cursor-pointer text-cyan-700 flex gap-2 items-center hover:underline ">
+            view the source code <FaGithub />
+          </p>
         </p>
         <div className="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
           <Link to="/voterRegister">
@@ -49,6 +52,11 @@ function Home() {
             alt="blue_block"
           />
         </div>
+        {/* <p className="fixed bg-cyan-500 p-3 rounded-xl top-1">
+          <Link>
+            <FaGithub />
+          </Link>
+        </p> */}
       </div>
     </section>
   );
