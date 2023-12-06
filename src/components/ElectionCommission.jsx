@@ -20,85 +20,105 @@ function ElectionCommission() {
 
   const HandleSubmit = async (event) => {
     event.preventDefault();
-    if (EthAccount == 0) {
-      ToastFailure("Please connect Metamask ! 💔 ");
-      return null;
-    } else if (!(await ElectionOwnerVerification(EthAccount))) {
-      ToastFailure("Your are not owner ! 💔");
-      return null;
-    } else {
-      const StartDate = new Date(InputDates.StartDate).getTime().toString();
-      const EndDate = new Date(InputDates.EndDate).getTime().toString();
-      const response = await ContractInstance.methods
-        .setElectionTime(StartDate, EndDate)
-        .send({ from: EthAccount, gas: 480000 });
-      Dispatch(setCounter(Counter + 1));
-      ToastSuccess(
-        "Date's Updated successful ! 🎉 " +
-          web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
-      );
+    try {
+      if (EthAccount == 0) {
+        ToastFailure("Please connect Metamask ! 💔 ");
+        return null;
+      } else if (!(await ElectionOwnerVerification(EthAccount))) {
+        ToastFailure("Your are not owner ! 💔");
+        return null;
+      } else {
+        const StartDate = new Date(InputDates.StartDate).getTime().toString();
+        const EndDate = new Date(InputDates.EndDate).getTime().toString();
+        const response = await ContractInstance.methods
+          .setElectionTime(StartDate, EndDate)
+          .send({ from: EthAccount, gas: 480000 });
+        Dispatch(setCounter(Counter + 1));
+        ToastSuccess(
+          "Date's Updated successful ! 🎉 " +
+            web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
+        );
+      }
+    } catch (error) {
+      console.log(error.message);
+      ToastFailure(error.message + " ! 💔 ");
     }
   };
 
   const StopElection = async () => {
-    if (EthAccount == 0) {
-      ToastFailure("Please connect Metamask ! 💔 ");
-      return null;
-    } else if (!(await ElectionOwnerVerification(EthAccount))) {
-      ToastFailure("Your are not owner ! 💔");
-      return null;
-    } else {
-      const StartDate = "0";
-      const EndDate = "0";
-      const response = await ContractInstance.methods
-        .setElectionTime(StartDate, EndDate)
-        .send({ from: EthAccount, gas: 480000 });
-      Dispatch(setCounter(Counter + 1));
-      ToastWarring(
-        "Voting Close successful ! 🎉 " +
-          web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
-      );
+    try {
+      if (EthAccount == 0) {
+        ToastFailure("Please connect Metamask ! 💔 ");
+        return null;
+      } else if (!(await ElectionOwnerVerification(EthAccount))) {
+        ToastFailure("Your are not owner ! 💔");
+        return null;
+      } else {
+        const StartDate = "0";
+        const EndDate = "0";
+        const response = await ContractInstance.methods
+          .setElectionTime(StartDate, EndDate)
+          .send({ from: EthAccount, gas: 480000 });
+        Dispatch(setCounter(Counter + 1));
+        ToastWarring(
+          "Voting Close successful ! 🎉 " +
+            web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
+        );
+      }
+    } catch (error) {
+      console.log(error.message);
+      ToastFailure(error.message + " ! 💔 ");
     }
   };
 
   const HandelShowResult = async () => {
-    if (EthAccount == 0) {
-      ToastFailure("Please connect Metamask ! 💔 ");
-      return null;
-    } else if (!(await ElectionOwnerVerification(EthAccount))) {
-      ToastFailure("Your are not owner ! 💔");
-      return null;
-    } else if (VotingDate.StartDate != 0 || VotingDate.EndDate != 0) {
-      ToastFailure("Voting is running ! 💔");
-      return null;
-    } else {
-      const response = await ContractInstance.methods
-        .WinnerCheck()
-        .send({ from: EthAccount, gas: 480000 });
-      Dispatch(setCounter(Counter + 1));
-      ToastSuccess(
-        "Winner declare successful ! 🎉 " +
-          web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
-      );
+    try {
+      if (EthAccount == 0) {
+        ToastFailure("Please connect Metamask ! 💔 ");
+        return null;
+      } else if (!(await ElectionOwnerVerification(EthAccount))) {
+        ToastFailure("Your are not owner ! 💔");
+        return null;
+      } else if (VotingDate.StartDate != 0 || VotingDate.EndDate != 0) {
+        ToastFailure("Voting is running ! 💔");
+        return null;
+      } else {
+        const response = await ContractInstance.methods
+          .WinnerCheck()
+          .send({ from: EthAccount, gas: 480000 });
+        Dispatch(setCounter(Counter + 1));
+        ToastSuccess(
+          "Winner declare successful ! 🎉 " +
+            web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
+        );
+      }
+    } catch (error) {
+      console.log(error.message);
+      ToastFailure(error.message + " ! 💔 ");
     }
   };
 
   const HandelClearContractData = async () => {
-    if (EthAccount == 0) {
-      ToastFailure("Please connect Metamask ! 💔 ");
-      return null;
-    } else if (!(await ElectionOwnerVerification(EthAccount))) {
-      ToastFailure("Your are not owner ! 💔");
-      return null;
-    } else {
-      const response = await ContractInstance.methods
-        .ClearVotingData()
-        .send({ from: EthAccount, gas: 480000 });
-      Dispatch(setCounter(Counter + 1));
-      ToastSuccess(
-        "Data Clear successful ! 🎉 " +
-          web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
-      );
+    try {
+      if (EthAccount == 0) {
+        ToastFailure("Please connect Metamask ! 💔 ");
+        return null;
+      } else if (!(await ElectionOwnerVerification(EthAccount))) {
+        ToastFailure("Your are not owner ! 💔");
+        return null;
+      } else {
+        const response = await ContractInstance.methods
+          .ClearVotingData()
+          .send({ from: EthAccount, gas: 480000 });
+        Dispatch(setCounter(Counter + 1));
+        ToastSuccess(
+          "Data Clear successful ! 🎉 " +
+            web3.utils.fromWei(response.cumulativeGasUsed.toString(), "ether")
+        );
+      }
+    } catch (error) {
+      console.log(error.message);
+      ToastFailure(error.message + " ! 💔 ");
     }
   };
 

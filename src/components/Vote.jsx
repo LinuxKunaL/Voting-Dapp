@@ -39,6 +39,7 @@ function Vote() {
       );
     } catch (error) {
       console.log(error);
+      ToastFailure(error.message + " ! 💔 ");
     }
   };
 
