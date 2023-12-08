@@ -8,6 +8,12 @@ GigaPol is a decentralized voting application that empowers users to participate
 - **React.js Frontend:** The frontend of the application is built using React.js, providing a modern and responsive user interface.
 - **Tailwind CSS Styling:** Tailwind CSS is employed for styling, offering a highly customizable and utility-first approach.
 - **Solidity Smart Contract:** The backend is powered by a Solidity smart contract, enabling decentralized and trustless execution of the voting process.
+- 
+## screenShots
+![Screenshot from 2023-12-09 01-54-10](https://github.com/LinuxKunaL/Voting-Dapp/assets/75113218/5bfe658a-d7f6-4d6f-a9dc-9afcf7d4fcfa)
+![Screenshot from 2023-12-09 01-54-15](https://github.com/LinuxKunaL/Voting-Dapp/assets/75113218/f61fc7fa-a286-4877-b87a-c402f15713ad)
+![Screenshot from 2023-12-09 01-54-20](https://github.com/LinuxKunaL/Voting-Dapp/assets/75113218/5bcc0e7a-21e8-4d84-b8c8-5b8faf66a830)
+![Screenshot from 2023-12-09 01-54-27](https://github.com/LinuxKunaL/Voting-Dapp/assets/75113218/ed757829-c4b0-474d-83a2-43ae40069159)
 
 ## Getting Started
 
